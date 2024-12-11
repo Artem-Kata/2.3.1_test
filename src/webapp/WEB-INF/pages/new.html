@@ -12,16 +12,19 @@
             <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Name:</label>
             <input type="text" th:field="*{name}" id="name"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
         </div>
         <div style="margin-bottom: 15px;">
             <label for="surname" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Surname:</label>
             <input type="text" th:field="*{surname}" id="surname"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
         </div>
         <div style="margin-bottom: 15px;">
             <label for="age" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Age:</label>
             <input type="text" th:field="*{age}" id="age"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
         </div>
         <div style="text-align: center;">
             <input type="submit" value="Create!"

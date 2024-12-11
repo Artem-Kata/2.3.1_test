@@ -7,21 +7,24 @@
 <body>
 <div style="max-width: 400px; margin: 50px auto; font-family: Arial, sans-serif; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
     <h2 style="text-align: center; color: #333;">Create New User</h2>
-    <form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+    <form th:method="POST" th:action="@{/users/update(id=${user.getId()})}" th:object="${user}">
         <div style="margin-bottom: 15px;">
             <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Name:</label>
             <input type="text" th:field="*{name}" id="name"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
         </div>
         <div style="margin-bottom: 15px;">
             <label for="surname" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Surname:</label>
             <input type="text" th:field="*{surname}" id="surname"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
         </div>
         <div style="margin-bottom: 15px;">
             <label for="age" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter Age:</label>
             <input type="text" th:field="*{age}" id="age"
                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"/>
+            <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
         </div>
         <div style="text-align: center;">
             <input type="submit" value="Update!"

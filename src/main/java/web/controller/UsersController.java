@@ -2,9 +2,12 @@ package web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.DAO.UserDAO;
 import web.models.User;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
@@ -22,8 +25,8 @@ public class UsersController {
         return "users";
     }
 
-    @GetMapping("/{id}")
-    public String userById(@PathVariable("id") int id, Model model) {
+    @GetMapping("/user")
+    public String userById(@RequestParam("id") int id, Model model) {
         model.addAttribute("user", userDAO.userById(id));
         return "userbyid";
     }
@@ -35,35 +38,31 @@ public class UsersController {
     }
 
     @PostMapping()
-    public String addUser(@RequestParam("name") String name,
-                          @RequestParam("surname") String surname,
-                          @RequestParam("age") int age,
-                          Model model) {
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setAge(age);
-        model.addAttribute("user", user);
-
+    public String addUser(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "new";
+        }
         userDAO.save(user);
-
         return "redirect:/users";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
+    @GetMapping("/edit")
+    public String edit(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", userDAO.userById(id));
         return "edit";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+    @PostMapping("/update")
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @RequestParam("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "edit";
+        }
         userDAO.update(id, user);
         return "redirect:/users";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    @PostMapping ("/delete")
+    public String delete(@RequestParam("id") int id) {
         userDAO.delete(id);
         return "redirect:/users";
     }
