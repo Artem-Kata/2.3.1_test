@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.DAO.UserDAO;
+import web.Service.UserService;
 import web.models.User;
 
 import javax.validation.Valid;
@@ -13,21 +14,21 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UsersController {
 
-    private final UserDAO userDAO;
+    private final UserService userService;
 
-    public UsersController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UsersController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
     public String getUsers(Model model) {
-        model.addAttribute("users", userDAO.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
     @GetMapping("/user")
     public String userById(@RequestParam("id") int id, Model model) {
-        model.addAttribute("user", userDAO.userById(id));
+        model.addAttribute("user", userService.userById(id));
         return "userbyid";
     }
 
@@ -42,13 +43,13 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "new";
         }
-        userDAO.save(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", userDAO.userById(id));
+        model.addAttribute("user", userService.userById(id));
         return "edit";
     }
 
@@ -57,13 +58,13 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
-        userDAO.update(id, user);
+        userService.update(id, user);
         return "redirect:/users";
     }
 
     @PostMapping ("/delete")
     public String delete(@RequestParam("id") int id) {
-        userDAO.delete(id);
+        userService.delete(id);
         return "redirect:/users";
     }
 }

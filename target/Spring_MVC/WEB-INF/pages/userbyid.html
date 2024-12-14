@@ -10,9 +10,9 @@
 <p th:text="${'Age: ' + user.getAge()}">VALUE</p>
 <p th:text="${'ID: ' + user.getId()}"></p>
 
-<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
+<a th:href="@{/users/edit(id=${user.id})}">Edit</a>
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+<form th:method="POST" th:action="@{/users/delete(id=${user.id})}">
 
     <br/>
     <hr/>
